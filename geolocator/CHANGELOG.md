@@ -1,3 +1,6 @@
+## 7.0.3+1
+- 自己修改原生库，android支持网络定位
+
 ## 7.0.3
 
 - Android: Throw the `ActivityMissingException` when requesting permissions while the activity is not available (e.g. when the App is in the background);
