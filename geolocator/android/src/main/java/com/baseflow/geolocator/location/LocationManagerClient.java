@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -119,11 +120,14 @@ class LocationManagerClient implements LocationClient, LocationListener {
 
   @Override
   public synchronized void onLocationChanged(Location location) {
+      Log.i("zzb", "onLocationChanged 获取结果 " + " getLatitude = " + location.getLatitude() + " getLongitude = " + location.getLongitude());
     float desiredAccuracy =
         locationOptions != null ? accuracyToFloat(locationOptions.getAccuracy()) : 50;
+      Log.i("zzb", "location.getAccuracy 获取结果 " + location.getAccuracy() + " desiredAccuracy = " + desiredAccuracy);
 
     if (isBetterLocation(location, currentBestLocation)
         && location.getAccuracy() <= desiredAccuracy) {
+        Log.i("zzb", "onLocationChanged 回调给Flutter ");
       this.currentBestLocation = location;
 
       if (this.positionChangedCallback != null) {
@@ -226,10 +230,30 @@ class LocationManagerClient implements LocationClient, LocationListener {
 
     String provider = locationManager.getBestProvider(criteria, true);
 
-    if (Strings.isEmptyOrWhitespace(provider)) {
+      /**
+       * 以下为原来的代码
+       */
+//      if (Strings.isEmptyOrWhitespace(provider)) {
+//          List<String> providers = locationManager.getProviders(true);
+//          if (providers.size() > 0) provider = providers.get(0);
+//      }
+
+      /**
+       * 下面为修复的代码
+       */
+      //根据当前provider对象获取最后一次位置信息
+      Location currentLocation = locationManager.getLastKnownLocation(provider);
+      Log.i("zzb", "getBestProvider 名字 =" + provider + " 结果 =  " + currentLocation);
+
       List<String> providers = locationManager.getProviders(true);
-      if (providers.size() > 0) provider = providers.get(0);
-    }
+      for (int i = 0; i < providers.size(); i++) {
+          Log.i("zzb", "providers 名字 =" + providers.get(i));
+      }
+      if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+          provider = LocationManager.NETWORK_PROVIDER;
+      } else if (providers.contains(LocationManager.GPS_PROVIDER)) {
+          provider = LocationManager.GPS_PROVIDER;
+      }
 
     return provider;
   }
@@ -237,6 +261,7 @@ class LocationManagerClient implements LocationClient, LocationListener {
   private static float accuracyToFloat(LocationAccuracy accuracy) {
     switch (accuracy) {
       case lowest:
+          return 1000;
       case low:
         return 500;
       case medium:

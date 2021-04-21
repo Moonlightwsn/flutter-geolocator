@@ -96,10 +96,16 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
             right: 10.0,
             child: FloatingActionButton.extended(
                 onPressed: () async {
-                  await Geolocator.getCurrentPosition().then((value) => {
-                        _positionItems.add(_PositionItem(
-                            _PositionItemType.position, value.toString()))
-                      });
+                  await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest,
+                      forceAndroidLocationManager: true).then((value) => {
+                    _positionItems.add(_PositionItem(
+                        _PositionItemType.position, value.toString()))
+                  });
+
+                  // await Geolocator.getCurrentPosition().then((value) => {
+                  //       _positionItems.add(_PositionItem(
+                  //           _PositionItemType.position, value.toString()))
+                  //     });
 
                   setState(
                     () {},
