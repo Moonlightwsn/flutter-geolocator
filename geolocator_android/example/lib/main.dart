@@ -190,6 +190,7 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
       accuracy: LocationAccuracy.low,
       distanceFilter: 100,
       forceLocationManager: true,
+      timeLimit: const Duration(seconds: 4),
     );
 
     print("开始定位");
