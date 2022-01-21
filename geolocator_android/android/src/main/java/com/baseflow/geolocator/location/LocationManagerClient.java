@@ -10,6 +10,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -226,10 +227,28 @@ class LocationManagerClient implements LocationClient, LocationListener {
 
     String provider = locationManager.getBestProvider(criteria, true);
 
-    if (provider.trim().isEmpty()) {
+      /**
+       * 以下为原来的代码
+       */
+//    if (provider.trim().isEmpty()) {
+//      List<String> providers = locationManager.getProviders(true);
+//      if (providers.size() > 0) provider = providers.get(0);
+//    }
+
+      /**
+       * 下面为修复的代码
+       */
+      //根据当前provider对象获取最后一次位置信息
+
       List<String> providers = locationManager.getProviders(true);
-      if (providers.size() > 0) provider = providers.get(0);
-    }
+      for (int i = 0; i < providers.size(); i++) {
+          Log.i("zzb", "providers 名字 =" + providers.get(i));
+      }
+      if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+          provider = LocationManager.NETWORK_PROVIDER;
+      } else if (providers.contains(LocationManager.GPS_PROVIDER)) {
+          provider = LocationManager.GPS_PROVIDER;
+      }
 
     return provider;
   }
@@ -237,6 +256,7 @@ class LocationManagerClient implements LocationClient, LocationListener {
   private static float accuracyToFloat(LocationAccuracy accuracy) {
     switch (accuracy) {
       case lowest:
+        return 1000;
       case low:
         return 500;
       case medium:

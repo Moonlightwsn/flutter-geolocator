@@ -186,11 +186,13 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handlePermission();
 
+    print("获取权限hasPermission $hasPermission");
     if (!hasPermission) {
       return;
     }
 
     final position = await _geolocatorPlatform.getCurrentPosition();
+    print("结果position $position");
     _updatePositionList(
       _PositionItemType.position,
       position.toString(),
@@ -203,6 +205,7 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
 
     // Test if location services are enabled.
     serviceEnabled = await _geolocatorPlatform.isLocationServiceEnabled();
+    print("serviceEnabled $serviceEnabled");
     if (!serviceEnabled) {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
