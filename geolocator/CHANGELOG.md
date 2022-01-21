@@ -1,3 +1,6 @@
+## 8.0.3+1
+- 修改android源码
+
 ## 8.0.3
 
 - Upgraded the geolocator_platform_interface, geolocator_web, geolocator_apple and geolocator_android packages to the latest versions.
