@@ -3,6 +3,14 @@ Android12获取权限修改，获取定位信息。
 
 基于geolocator的v8.0.3版本进行修改，由于是自己修改，所以发布版本为8.0.3+1 主要修改Android的源码LocationManagerClient.java类，由于gps定位太慢，改为支持网络定位。 ios源码没有修改.
 
+注意也要把geolocator_android库传递到私有仓库，并且在geolocator的pubspec.yaml引入私有库
+```
+geolocator_android:
+    version: 3.0.2
+    hosted:
+      name: geolocator_android
+      url: http://flutter-pub.sf-express.com
+```
 1. 修改源码位置
 LocationManagerClient
 ```
