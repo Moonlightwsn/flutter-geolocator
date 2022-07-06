@@ -10,8 +10,10 @@
     <!-- Permissions options for the `location` group -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+<!-- flutter2.5 以下 使用android:name="io.flutter.app.FutterApplication"   -->
+<!-- flutter2.10.3 以下 使用android:name="${applicationName}"   -->
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name="${applicationName}"
         android:label="geolocator_example"
         android:icon="@mipmap/ic_launcher">
         <activity

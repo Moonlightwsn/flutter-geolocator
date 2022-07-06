@@ -6,10 +6,7 @@ Android12获取权限修改，获取定位信息。
 注意也要把geolocator_android库传递到私有仓库，并且在geolocator的pubspec.yaml引入私有库
 ```
 geolocator_android:
-    version: 3.0.2
-    hosted:
-      name: geolocator_android
-      url: http://flutter-pub.sf-express.com
+    path: ../geolocator_android
 ```
 1. 修改源码位置
 LocationManagerClient

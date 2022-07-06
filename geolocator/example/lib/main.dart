@@ -191,19 +191,29 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
       return;
     }
 
-    final Position position = await _geolocatorPlatform.getCurrentPosition();
+    try{
+      Position? lastKnownPosition = await Geolocator.getLastKnownPosition(
+        forceAndroidLocationManager: true,);
 
-    Position position2 = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.lowest,
-        forceAndroidLocationManager: true,
-        timeLimit: const Duration(seconds: 4));
+      // final Position position = await _geolocatorPlatform.getCurrentPosition();
 
-    print("结果position $position");
-    print("结果position2 $position2");
-    _updatePositionList(
-      _PositionItemType.position,
-      position.toString(),
-    );
+      Position position2 = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.lowest,
+          forceAndroidLocationManager: true,
+          timeLimit: const Duration(seconds: 4));
+
+      print("结果lastKnownPosition $lastKnownPosition");
+      // print("结果position $position");
+      print("结果position2 $position2");
+
+      _updatePositionList(
+        _PositionItemType.position,
+        position2.toString(),
+      );
+    }catch (e){
+      print("_getCurrentPosition error $e");
+    }
+
   }
 
   Future<bool> _handlePermission() async {
