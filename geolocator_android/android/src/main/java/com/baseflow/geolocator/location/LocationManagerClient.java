@@ -59,6 +59,7 @@ class LocationManagerClient implements LocationClient, LocationListener {
     for (String provider : locationManager.getProviders(true)) {
       @SuppressLint("MissingPermission")
       Location location = locationManager.getLastKnownLocation(provider);
+      Log.i("zzb", "getLastKnownPosition provider = " + provider + " location = " + location);
 
       if (location != null && isBetterLocation(location, bestLocation)) {
         bestLocation = location;
@@ -239,10 +240,11 @@ class LocationManagerClient implements LocationClient, LocationListener {
        * 下面为修复的代码
        */
       //根据当前provider对象获取最后一次位置信息
-
+      Log.i("zzb", "默认匹配的provider 名字 =" + provider);
       List<String> providers = locationManager.getProviders(true);
       for (int i = 0; i < providers.size(); i++) {
           Log.i("zzb", "providers 名字 =" + providers.get(i));
+//          if (providers.size() > 0) provider = providers.get(0);
       }
       if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
           provider = LocationManager.NETWORK_PROVIDER;
