@@ -186,15 +186,35 @@ class _GeolocatorWidgetState extends State<GeolocatorWidget> {
   Future<void> _getCurrentPosition() async {
     final hasPermission = await _handlePermission();
 
+    debugPrint("获取权限hasPermission $hasPermission");
     if (!hasPermission) {
       return;
     }
 
-    final position = await _geolocatorPlatform.getCurrentPosition();
-    _updatePositionList(
-      _PositionItemType.position,
-      position.toString(),
-    );
+    try{
+      Position? lastKnownPosition = await Geolocator.getLastKnownPosition(
+        forceAndroidLocationManager: true,);
+
+      // final Position position = await _geolocatorPlatform.getCurrentPosition();
+
+      Position position2 = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.lowest,
+          forceAndroidLocationManager: true,
+          // timeLimit: const Duration(seconds: 4),
+      );
+
+      debugPrint("结果lastKnownPosition $lastKnownPosition");
+      // print("结果position $position");
+      debugPrint("结果position2 $position2");
+
+      _updatePositionList(
+        _PositionItemType.position,
+        position2.toString(),
+      );
+    }catch (e){
+      debugPrint("_getCurrentPosition error $e");
+    }
+
   }
 
   Future<bool> _handlePermission() async {

@@ -1,3 +1,30 @@
+# 插件修改
+Android12获取权限修改，获取定位信息。
+
+基于geolocator的v9.0.2版本进行修改，由于是自己修改，所以发布版本为9.0.2+1 主要修改Android的源码LocationManagerClient.java类，由于gps定位太慢，改为支持网络定位。 ios源码没有修改.
+
+注意也要把geolocator_android库传递到私有仓库，并且在geolocator的pubspec.yaml引入私有库
+```
+geolocator_android:
+    path: ../geolocator_android
+```
+1. 修改源码位置
+   LocationManagerClient
+```
+if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+          provider = LocationManager.NETWORK_PROVIDER;
+      } else if (providers.contains(LocationManager.GPS_PROVIDER)) {
+          provider = LocationManager.GPS_PROVIDER;
+      }
+```
+
+2.使用方式
+```
+Position position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.lowest,
+          forceAndroidLocationManager: true,
+          timeLimit: const Duration(seconds: 4));
+```
 # Flutter Geolocator Plugin  
 
 [![pub package](https://img.shields.io/pub/v/geolocator.svg)](https://pub.dartlang.org/packages/geolocator) ![Build status](https://github.com/Baseflow/flutter-geolocator/workflows/geolocator/badge.svg?branch=master) [![style: effective dart](https://img.shields.io/badge/style-effective_dart-40c4ff.svg)](https://github.com/tenhobi/effective_dart) [![codecov](https://codecov.io/gh/Baseflow/flutter-geolocator/branch/master/graph/badge.svg)](https://codecov.io/gh/Baseflow/flutter-geolocator)

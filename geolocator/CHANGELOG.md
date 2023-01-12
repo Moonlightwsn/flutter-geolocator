@@ -1,3 +1,6 @@
+## 9.0.2+1
+- 适配Android13
+
 ## 9.0.2
 
 - Updated dependency on geolocator_android to version 4.1.3
