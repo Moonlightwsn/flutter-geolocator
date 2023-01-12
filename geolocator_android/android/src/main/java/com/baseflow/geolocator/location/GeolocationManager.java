@@ -3,6 +3,7 @@ package com.baseflow.geolocator.location;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -77,6 +78,7 @@ public class GeolocationManager
     try {
       GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
       int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(context);
+        Log.i("zzb", "isGooglePlayServicesAvailable = " + (resultCode == ConnectionResult.SUCCESS));
       return resultCode == ConnectionResult.SUCCESS;
     }
     // If the Google API class is not available conclude that the play services
